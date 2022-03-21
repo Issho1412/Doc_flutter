@@ -1,0 +1,16 @@
+.NET MAUI RESUME (Multi platform App UI)
+Define:
+- là 1 phiên bản đổi tên của Xamarin Forms
+Strongest 
+- support for macOS 
+- integrate project model
+- use C# to create UI
+- được tích hợp tài nguyên đa nền tảng sẵn có, 
+
+Required
+- install .NET6
+
+A. BLAZOR
+- gồm 2 phiên bản
+ + server: sử dụng giao tiếp thời gian thực vs SignalR
+ + client: WebAssembly để chạy C# trên browser

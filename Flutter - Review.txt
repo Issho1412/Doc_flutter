@@ -1,0 +1,505 @@
+Form 
+1. To use State of txtField you can use GlobalKey<FormState> 
+2. Set key at Form widget, use attr key = var GlobalKey<FormState>
+3. Validator: value != undefine ? null : 'Error msg'
+4. Call submit by key.currentState!.validate()
+
+Widgets 
+AnimatedWidget rebuilds automatically -> calling setState() is not needed here
+In flutter everything is a widget(component). They are used to create a UI
+Level widget (Widget tree)
+Example:
+ MyApp -> Material App -> MyHomePage -> Scaffold -> AppBar 
+						 -> Center -> Text
+Gesture Detector is an invisible widget having the ability to capture user interactions (tapping, dragging, ..)
+AbsorbPointer (absorb: true/false) -> disable touch wrapped widget
+Opacity (opacity: 0-1) -> blur widget.
+
+Dart 
+doesnt support arrays but you can use list & map to replace it 
+Example var list = [, ... ]; mapping = { props }
+
+Image:
+Create a folder assets , specify the assets in pub
+Use Image.assets(url);
+
+Nullable Type
+Dart < 2.0
+Null is subtype of others
+Dart > 2.0
+Null is separated to a special type
+EX: int a = null -> exception error
+Ex: String newname = name! => newname = name if name != null else run error
+
+"late"
+- var don't check inital value  
+- var will be assigned a value before it is used
+Ex: 
+	class MonAn {
+  		String? ten; 
+		// replace with late String ten; 
+  		void setTen(String str) {
+   	 		ten = str;
+  		}
+	}
+	void main() {
+  		final buaSang = MonAn();
+  		buaSang.setTen('Chim To Dần');
+ 		print(buaSang.ten);
+	}
+=> Occur error if logic code is fail Because MonAn Object don't init
+
+Dart distinguishes between nullable and non-nullable
+All var are non-nullable by default
+Ex String country = null; // cannot be null
+   String? country = null // can be null to force variable with a value is null 
+Ex String? country = 'USA' 
+   String? a; // You'd not like assign a value and can accept it is null  // only use for Dart version < 2
+   String myCountry = country! // if country is null throw error
+-> help you avoid null exceptions, a class of bugs that are often hard to spot 
+
+Statically-type languages
+- compiles the code using an 'ahead of time' (is check before the code is run)
+- it takes more times and suit with complex scenarios
+
+Dynamically-type languages 
+- make development process very quick 
+- using in the simpler scenarios
+
+Dart
+- is a client-optimized programming language for apps on mul platforms
+- is declare mul class within a Dart file
+- developed by GG, use to build mobile, desktop, server, web app
+- can compile to either native code or JS
+- dynamic -> var
+- check type with 'is'
+- performs type checking at two different times
+	+ when code is compiled (is reloaded)
+	+ when code is run (run time)
+- Class: + var of class starts with _name
+	 + don't have keyword 'public, protected, private' 
+	 + var in class start with "_" is private
+	 + don't need use 'new' to constructor 1 object
+	 + factory constructer -> invoked only once
+ 	 + declare positional required : Car(this._make, this._model){}
+	 + declare positional optional: Car(this._make, [this._model]){}
+	 + @required to make a bound for value construct
+- final: const when run once set be value
+- const: const default has before run(required static and assign a value when in class)
+- arrow function 
+- list is use anywhere
+- assert (condition true , action);
+- using try catch for exception judiciously
+
+Design-specific widgets
+Flutter contains 2 sets of widgets
+- Material Design & Cupertino (Apple iOS Human)
+
+Naming convetions 
+- UpperCamelCase - class, type, extension, type parameter
+- lowerCamelCase - id, contstant, method
+- lowercase with underscores - lib, package, directories 
+
+Flutter doctor 
+- check your environment and displays a report of the status your Flutter installation
+- exhibit a list of software you need to install
+
+Flutter clean
+- clear cache project
+
+Flutter cmd
+- pub get // get all the dependencies listed in .yaml
+- pub upgrade // get the latest versions all the dependencies listed in .yaml
+
+Widget 
+- is a UI element
+- StatelessWidget
+	- do not require mutable state, it is inmutable
+	- only once as well, render UI
+	- if you want redraw stateless you will need to create new 
+- StatefulWidget 
+	- have a mutable state, can be drawn mul times within its life time 
+	- they are the widgets which can change their state mul times and can be redrawn on to the screen anynumver times while app is in action
+State / setState() judiciously
+- the state is a collection of the var values  
+- anything that can change like a counter count ..
+- setState is essentially a way of telling the app to refresh and rebuild the screen with the new values 
+- State objects are created by the framework. In order to change it you use setState 
+- but this technique has its own drawback 
+
+Lifecycle
+- createState() a method call immediately should return a object
+- initState() called after the widget is created
+- didChangeDependencies call after initState() the first time widget is built
+- build() render UI 
+- didUpdateWidget() called when parent widget change and need to redraw UI
+- deactivate when this object is removed from the from
+- dispose when deallocating
+
+Difference between hot reload, hot restart, fullrestart
+Hot reload - loads changes into the VM and rebuild widget tree, it doesn't rerun main() or initState(), take less time
+Hot restart - loads changes into the VM and restart app, losing the app state, take much higher time
+Full restart - this takes longer because it also recompiles 
+
+The different ways to create navigation
+Direct nav
+  - Route route = MaterialPageRoute (builder: (context) => ___Screen());
+  - Navigator.push(context, route);
+Static nav
+  - MaterialApp(
+    	initialRoute: '/home',
+	routes: <String, WidgetBuilder>{
+		'/home': (context) => HomePage(),
+	}
+    )
+  - Navigator.pushNamed(context, '/home');
+Dynamic nav
+  - MaterialApp(
+    	onGenerateRoute: (RouteSettings settings){
+		switch (settings.name){
+			case '/home':
+			 return MaterialPageRoute(builder: (context) => HomePage());
+			 break;	
+		}
+	}
+    );
+
+Build modes
+Debug mode
+ - Hot reload works only in debug mode
+ - he emulator and simulator execute 
+ - assertions, service are enabled
+ - but not for execution speed, binary size
+Profile mode
+ - debugging ability is maintained
+ - is disable on e/simulator,
+ - like release mode
+Release mode
+ - deploy app 
+ - optimization and minimal footprint size
+ - assert is not enable
+ - optimized for fast startup, fast execution, small size
+
+Parameter types in Dart Function
+ Optinal - can be either named or positional, but not both
+ 	 - only be declared after any required parameter
+	 - can set default value 
+
+Future 
+- represent the result of an asynchronus opertation (un/completed)
+- async -> you can use the async before function body to mark it as asynchronus
+- await -> you can use the await to get the completed (only works within an async func)
+- async* -> like as a Stream, make a func that returns a bunch of future values
+
+Null-aware 
+?? : x = y ?? z -> y = x if y not null, otherwise y = z
+??= : x ??= y -> y = x if x null
+?. : x?.foo() -> foo() is called when x null
+
+dynamic - var - final 
+dynamic -> like var in JS
+var -> like var with original types in JS
+final -> like const
+Note:
+1. when specify the type of member don't use var to declare -> take more time to solve
+2. don't explicitly initialize var null
+
+Collection if
+- var nav = ['1', '2', if (true) '4'];
+String value 
+don't Ex: Text('jhjfhjfa' + 'fsfsa')
+do Ex: Text('jhjahfj'
+	'text next')
+
+
+Access size widget
+- MediaQuery.of(context).size. -> height, width, ...
+
+Navigator push - pop - push 
+Navigator likes as a Stack and you can push and pop
+use push method -> add the new screen onto the top of the stack
+use pop method -> would remove that screen from the stack
+use pushReplacement -> add new view and remove current view
+use pushNamedandRemoveUntil -> after logging out, you can't simply a screen that needs to be displayed after logging out(removed all route in stack except current route)
+if you want to remove all routes in the stack so that user cannot go back the previous after they have logged out
+
+Widget should know
+SafeArea 
+- is a glorified widget
+- blocked by system status bar notches holes rounded corner
+Wrap
+- to scroll row, vertical without break screen
+Rich Text
+- like <p>Think <span>Technically</span></p>
+ClipRRect
+- round out the edges of the image 
+MediaQuery
+
+Very Note
+- When you want to custom AppBar widget it must implements PreferredSizeWidget
+- You should list all widgets that you assume it can be reused
+
+Optimizing performant widget
+- using setState() judiciously ( Animated widget don't need use the setState() )
+- only build what is necessary 
+- use ListView.builder over ListView [] => ex: https://dartpad.dev/e41ed2678b9b9d7347880c20ec49f3f2?null_safety=true
+
+Very important package
+- fluttertoast
+- google_sign_in
+- firebase_messaging
+- share
+- shared_preferences
+- device_info
+- connectivity
+- http
+- path_provider
+- flutter_bloc
+- flui -> theme UI
+
+Easiest way to understand BLOC Pattern in Flutter
+State - is the data your app is currently showing
+Event - is any action that is detected by app
+Stream - be considered as a medium through which data travels, is like pipe and the data is water
+Sink - be considered as the point you receive or consume data from stream
+
+OOP
+abstract class là class khái niệm trừu tượng 
+- có mà ko biết cách để bắt
+- thí dụ nà: Shape là abstract class vs method tinhChuVi, tinhDienTich
+-     		2 đứa đó là trừu tượng vì phải có hình cụ thể mới tính đc 
+
+
+abstract : is - a - kind - of (đặc điểm và hành vi) dòng họ
+interface : is - a - member - of (hành vi đếch quan tâm xuất thân) club
+
+Advanced flutter layer architecture
+Project
+- Spesific theme
+- Constants
+- Depedencies
+- Language
+Delivery 
+- Publish Store
+- Env Config
+- CI Pipeline
+Core
+- Atomic Widgets
+- Network layer
+- Management
+- Base Models
+
+Flutter Architecture that I adore
+1. Simplicity to understand : is quite simple to understand and has a very low learning curve, so 
+any new dev can grasp it quickly and start doing what matters
+2. Total separation of bussines logic: 
+3. Effortless testing: we need and architecture that lets us do straightforward testing 
+
+Resolving package conflicts
+Method 1: use 'any'
+ - first set the version of the last added dependency that triggered the conflict to any
+ - open pubspec.lock and search for our package to get version installed
+ - copy and replace with your caret ^ 
+Method 2: Dependency overrides
+ - can lead to issues if 2 packages make use in incompatible ways
+Method 3: Use pub assist search (syntax : > name, name, name) for Visual code
+ - is extension to have for easy flutter application development.
+ - helps to install the lastest versions of mult packages easily.
+Method 4: Restart app after installing plugin packages 
+ 
+50 Widgets flutter you need to know
+- SafeArea
+- Expanded
+- Wrap
+- Opacity
+- FutureBuilder
+- FloatActionButton
+- PageView
+- StreamBuilder
+- Inkwell
+- GestureDetector
+- RefreshIndicator
+- ListWheelScrollView
+- Snackbar
+- ShaderMask -> apply gradient to widgets, images
+- ClipPath -> give a unique shape to your widget
+- ProgressIndicator
+
+Trading App
+A. Similar work scenario
+- Registers and links the bank account
+- Set-ups a one time transfer or periodic deposits
+- Buys stock once it 
+- Sells stocks
+B. Main monetization & Other income
+- Commission (main)
+- directing orders for trade execution
+- In-app ads
+- Paid admission to technology tools
+C. Challenges and Legal issues
+- Obtain a license from regulatory 
+- Join investor protection programs 
+- Follow PSD2 Directive and similar rules ro protect consumers sensitive data 
+- Protect users and their money 
+D. Features of Trading Applications
+- A personal acc the user can edit and update in real time
+- Excute orders, monitor market positions display real time data
+- Assets management tool
+- Analytics tools: observe transactions' result
+- Notifictions and newsfeed
+E. Development and Costs 
+- Development methodology is Agile
+- Discovery and research
+	- design strategy, line-up
+	- app's features, road map
+- Approach
+ 	- platform, managed, cloud services, API third-party
+- UI
+	- line, bar charts, stochastic, candlesticks
+- Process
+	- mobile, wev, FE, BE, IOS, Android
+- Testing, delivery, maintaince
+-> It takes 5-10 months
+
+FirebaseMessage type
+- notification type
+
+ShowPersistantBottomSheet
+- GlobalKey<ScaffordState>().currentState.showBottomSheet(context) => Widget
+- data type
+
+Compare object in list Dart
+if((addresses.singleWhere((element) => element.address == address.address,
+        orElse: () => null)) != null){
+      print('find out');
+    }
+
+The Difference double.infinity & MediaQuery
+- double.infinity as big as my parrent allow
+- MediaQuery as big as the screen 
+
+Stateless to Stateful
+ Alt + Enter
+ Ctrl + .
+
+How to add SplashScreen 
+android: 
+	- change in app/src/main/res/drawable/launch_background.xml 
+	- change <bitmap android:src="img_url"/>
+iOS:
+	- run Xcode, ios/Runner.xworkspace
+	- select Runner/Assets.xcassets 
+	- recify on LaunchScreen.storyboard
+
+Implicit Animation 
+=> The most crucial part of adding animation is deciding what we want to add animation.
+
+The implicit animation could be separated
+1. AnimatedContainer
+- change value as color, size, so on immediately
+without you having the explicity setting custom tweens or controllers 
+2. AnimatedOpacity
+- change in opacity 
+3. AnimatedCrossFade
+- change from one widget to the next with a given duration 
+4. TweenAnimationBuilder
+- to determine a range of value that you need to animate between
+
+Widget Tree
+- tất cả các widgets mà dùng để xây dựng app
+- đc khai bao lồng ghép vào nhau
+- khi đc flutter build() nó sẽ là 1 loạt các cấu hình đc xử lý 
+
+Element Tree 
+- rất hiếm đc rebuild
+- giữ tham chiếu tới widget đang chứa giá trị UI
+- là widget con của widget tree
+=> Khi flutter tìm thấy stateful widget, nó tạo element and createState()
+ state đc tạo là đối tượng đc kết nối Element tree and widget tree
+
+Render Tree
+- là đại diện các element thực sự đc hiển thị
+- ko đc rebuild thường xuyên
+
+Cách build() vận hành 
+- khi setState() đc gọi
+- MediaQuery or theme.of()
+Note:
+1. tránh sử dụng các phương thức build widget trong build()
+Ex: class DemoWidget extend StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+  	return Column(children: [
+		A(),
+		B(),
+	]);
+  }
+
+  Widget A() => ...
+  Widget B() => ...
+=> Should seperate widget to class to avoid wasting possibly memory
+
+Way how to avoid rebuild entire UI is not necessary
+- using ValueNotifier.
+ex: final _colorNotifier = ValueNotifer<Color>(Color.grey)
+void _onPressed() {
+	_colorNotifier.value = ...
+}
+
+build(){
+	.. 
+	 .. 
+	  ValueListeneableBuilder(
+	  	valueListenable: _colorNotifier,
+		builderl (_, value, _) => Widget(
+		  property: value
+		)
+	  )
+}
+
+- avoid using Opacity particular in animation.
+
+BaseProvider 
+- is used when widget'status changed 
+- always used for event handlers
+- don't use for implicting functions.
+
+Provider.of vs Consumer
+It doesn't matter. But to explain things rapidly:
+- Provider.of is the only way to obtain and listen to an object. 
+- Consumer, Selector, and all the *ProxyProvider calls Provider.of to work.
+
+Provider.of vs Consumer is a matter of personal preference. But there's a few arguments for both
+
+Provider.of 
+ - can be called in all the widgets lifecycle, 
+ - including click handlers and didChangeDependencies
+ - doesn't increase the indentation
+Consumer
+ - allows more granular widgets rebuilds
+ - solves most BuildContext misuse
+
+Check version 
+- use package_info_plus
+	- getVersionStatus -> check localVersion  ->storeVersion -> Update new verson app -> appStoreLink / Continue 
+	
+How to upload 500 images at the specific time ?
+-> split 
+
+You submit data from a form when offline. Where is that data stored ? 
+-> LocalStorage -- AsyncStorage
+
+How to cancel pending request ?
+
+
+PACKAGES used in a project
+Riverpod 
+- one of the best solution for statement
+- don't depend directly on SDK flutter, Widget Tree,
+- providers are declared globally and can be used any where in App
+- only catch error when compile time not run time.
+- auto delete support
+- debug application state
+
+Flutter_hooks
+Flash
